@@ -1,6 +1,10 @@
 import React from "react";
 import { useState } from "react";
-export default function Form() {
+import { v4 as uuid } from "uuid";
+import useStore from "../store/ContactStore";
+const Form = () => {
+  //import store
+  const addContact = useStore(state=>state.addContact)
   //useState and handling for name input
   const [name, setName] = useState("");
   const handleNameChange = (event) => {
@@ -13,37 +17,57 @@ export default function Form() {
     setEmail(event.target.value);
   };
 
-  //useState and handling for password input
-  const [password, setPassword] = useState("");
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+  //useState and handling for phone number input
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const handlePhoneNumberChange = (event) => {
+    setPhoneNumber(event.target.value);
+  };
+
+  //useState and handling for address input
+  const [address, setAddress] = useState("");
+  const handleAddressChange = (event) => {
+    setAddress(event.target.value);
   };
 
   // handling form submit
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("name: ", name);
-    console.log("email: ", email);
-    console.log("password: ", password);
+    if (name && email && phoneNumber && address) {
+      let newContact = {
+        name,
+        email,
+        id: uuid(),
+        phoneNumber,
+        address,
+      };
+      addContact(newContact);
+      setName("");
+      setEmail("");
+      setPhoneNumber("");
+      setAddress("");
+    }
   };
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-slate-50 to-slate-200 flex items-center justify-center p-6">
+    <div className="h-148 bg-gradient-to-br from-white via-slate-50 to-slate-200 flex justify-center p-6">
       <form
         onSubmit={handleSubmit}
-        className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-2xl space-y-6 transition-all duration-300"
+        className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-2xl space-y-4 transition-all duration-300"
       >
-        <h2 className="text-3xl font-semibold text-slate-800 text-center">
-          📝Sign Up
+        <h2 className="text-3xl font-semibold text-purple-700 text-center">
+          📇Register Contact
         </h2>
+
+        {/* name */}
         <div>
           <label
             htmlFor="name"
-            className="block text-sm font-medium text-slate-600"
+            className="block text-xl font-medium text-green-900"
           >
             Name
           </label>
           <input
             onChange={handleNameChange}
+            value={name}
             name="name"
             type="text"
             id="name"
@@ -51,15 +75,18 @@ export default function Form() {
             className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
           />
         </div>
+
+        {/* email */}
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-slate-600"
+            className="block text-xl font-medium text-green-900"
           >
             Email
           </label>
           <input
             onChange={handleEmailChange}
+            value={email}
             name="email"
             type="email"
             id="email"
@@ -67,29 +94,53 @@ export default function Form() {
             className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
           />
         </div>
+
+        {/* phone Number */}
         <div>
           <label
-            htmlFor="password"
-            className="block text-sm font-medium text-slate-600"
+            htmlFor="phoneNumber"
+            className="block text-xl font-medium text-green-900"
           >
-            Password
+            Phone Number
           </label>
           <input
-            onChange={handlePasswordChange}
-            value={password}
-            name="password"
-            type="password"
-            id="password"
+            onChange={handlePhoneNumberChange}
+            value={phoneNumber}
+            name="phoneNumber"
+            type="tel"
+            id="phoneNumber"
             required
-            className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition resize-none"
+            className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
           />
         </div>
+
+        {/* address */}
+        <div>
+          <label
+            htmlFor="address"
+            className="block text-xl font-medium text-green-900"
+          >
+            Address
+          </label>
+          <input
+            onChange={handleAddressChange}
+            value={address}
+            name="address"
+            type="text"
+            id="address"
+            required
+            className="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
+          />
+        </div>
+
+        {/* submit button */}
         <input
           type="submit"
-          value={"Get Started"}
-          className="w-full bg-indigo-600 text-white font-medium py-3 rounded-xl hover:bg-indigo-700 shadow-md transition"
+          value={"Add Contact"}
+          className="w-1/2 block mx-auto bg-purple-600 text-white font-medium  my-2 py-3 rounded-xl hover:bg-purple-700 shadow-md transition"
         />
       </form>
     </div>
   );
-}
+};
+export default Form;
