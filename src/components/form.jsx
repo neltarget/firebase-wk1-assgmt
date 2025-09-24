@@ -30,7 +30,7 @@ const Form = () => {
         className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-2xl space-y-4 transition-all duration-300"
       >
         <h2 className="text-3xl font-semibold text-purple-700 text-center">
-          Create User
+          Create Contact
         </h2>
 
         {/* name */}
@@ -90,7 +90,7 @@ const Form = () => {
         {/* submit button */}
         <input
           type="submit"
-          value={"Add User"}
+          value={"Add Contact"}
           className="w-1/2 block mx-auto bg-purple-600 text-white font-medium my-2 py-3 rounded-xl hover:bg-purple-700 shadow-md transition"
         />
       </form>
